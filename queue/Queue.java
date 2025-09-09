@@ -1,3 +1,5 @@
+package queue;
+
 public class Queue {
   private Node front;
   private Node rear;
@@ -41,6 +43,30 @@ public class Queue {
     temp = null;
   }
 
+  public void swap(int x, int y) {
+
+    if (x == y) {
+      return;
+    }
+
+    Node currX = null, currY = null;
+
+    Node curr = front;
+
+    while (curr != null) {
+      if (curr.data == x) {
+        currX = curr;
+        break;
+      }
+
+      curr = curr.next;
+    }
+
+    if (currX == null || currY == null || currX == currY) {
+      return;
+    }
+  }
+
   public int size() {
     return this.size;
   }
@@ -53,10 +79,13 @@ public class Queue {
 
     Node current = front;
     while (current != null) {
-      System.out.print(current.data + " -> ");
+      System.out.print(current.data);
+      if (current.next != null) {
+        System.out.print(" <-> ");
+      }
       current = current.next;
     }
 
-    System.out.print("null \n");
+    System.out.print("\n");
   }
 }
