@@ -1,4 +1,3 @@
-package stack;
 
 public class Stack {
   private Node top;
@@ -21,8 +20,12 @@ public class Stack {
   }
 
   public Node swap(int x, int y) {
+    if (isEmpty()) {
+      throw new IllegalStateException("Stack kosong, tidak bisa swap.");
+    }
+
     if (x == y) {
-      return top;
+      throw new IllegalArgumentException("Tidak bisa swap node dengan nilai yang sama: " + x);
     }
 
     Node prevX = null, currX = null;
@@ -30,48 +33,47 @@ public class Stack {
 
     Node curr = top;
 
-    // Search for the x
+    // Cari x
     while (curr != null) {
       if (curr.data == x) {
         currX = curr;
         break;
       }
-
       prevX = curr;
       curr = curr.next;
     }
 
     curr = top;
 
-    // Search for the y
+    // Cari y
     while (curr != null) {
       if (curr.data == y) {
         currY = curr;
         break;
       }
-
       prevY = curr;
       curr = curr.next;
     }
 
     if (currX == null || currY == null) {
-      return top;
+      throw new IllegalArgumentException("Node dengan nilai " + x + " atau " + y + " tidak ditemukan.");
     }
 
-    // If x is not top of the linked list
+    // Hubungkan prevX ke currY
     if (prevX != null) {
       prevX.next = currY;
     } else {
       top = currY;
     }
 
-    // If y is not top of the linked list
+    // Hubungkan prevY ke currX
     if (prevY != null) {
       prevY.next = currX;
     } else {
       top = currX;
     }
 
+    // Tukar next
     Node temp = currX.next;
     currX.next = currY.next;
     currY.next = temp;
@@ -81,9 +83,8 @@ public class Stack {
 
   public int peek() {
     if (isEmpty()) {
-      return Integer.MIN_VALUE;
+      throw new IllegalStateException("Stack kosong, tidak bisa peek.");
     }
-
     return top.data;
   }
 
@@ -91,30 +92,29 @@ public class Stack {
     return this.size;
   }
 
-  public void pop() {
+  public int pop() {
     if (isEmpty()) {
-      return; /* TODO: Throws Error */
+      throw new IllegalStateException("Stack kosong, tidak bisa pop.");
     }
 
-    Node temp = top;
+    Node prev = top;
     top = top.next;
-    temp = null;
     size--;
 
+    return prev.data;
   }
 
   public void traverse() {
     if (isEmpty()) {
-      throw new NullPointerException("Stack kosong");
+      throw new IllegalStateException("Stack kosong, tidak bisa traverse.");
     }
 
-    /* TODO: Traverse linkedlist */
     Node current = top;
+    System.out.println();
     while (current != null) {
-      System.out.print(current.data + " -> ");
+      System.out.println("| " + current.data + " |");
       current = current.next;
     }
-
-    System.out.print("null \n");
+    System.out.println("------");
   }
 }
